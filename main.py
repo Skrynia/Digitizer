@@ -1,28 +1,25 @@
-# packages needed
 import pandas
 import numpy
 import sklearn.tree
 
-# release data
-train_data = pandas.read_csv('train.csv')
-test_data = pandas.read_csv('test.csv')
 
-# point target and key features
-target = 'label'
-features = train_data.columns[1:]
+def main():
+    train_data = pandas.read_csv('train.csv')
+    test_data = pandas.read_csv('test.csv')
 
-# get columns
-y = train_data['label']
-X = train_data[features]
+    target = train_data['label']
+    args = train_data[train_data.columns[1:]]
 
-# create model
-model = sklearn.tree.DecisionTreeClassifier(random_state=0)
-model.fit(X, y)
-predictions = model.predict(test_data)
+    model = sklearn.tree.DecisionTreeClassifier(random_state=0)
+    model.fit(args, target)
+    predictions = model.predict(test_data)
 
-# output
-output = pandas.DataFrame({'ImageId': numpy.arange(1, 28001), 'Label': predictions})
-output.set_index('ImageId', inplace=True)
-output.to_csv('predictions.csv')
+    output = pandas.DataFrame({'ImageId': numpy.arange(1, 28001),
+                              'Label': predictions})
 
-print('All done')
+    output.set_index('ImageId', inplace=True)
+    output.to_csv('predictions.csv')
+
+
+if __name__ == '__main__':
+    main()
