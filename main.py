@@ -15,7 +15,7 @@ def main():
     predictions = model.predict(test_data)
 
     output = pandas.DataFrame({'ImageId': numpy.arange(1, 28001),
-                              'Label': predictions})
+                               'Label': predictions})
 
     output.set_index('ImageId', inplace=True)
     output.to_csv('predictions.csv')
